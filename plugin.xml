@@ -1,8 +1,15 @@
-<plugin name='ulc' version='2008-u1'>
-    <resources>
-        <resource>com.ulcjava.grails.controller.UlcServerEndpointController</resource>
-        <resource>com.ulcjava.grails.services.GenericBeanListTableModel</resource>
-        <resource>com.ulcjava.grails.services.UlcHomeViewFactory</resource>
-        <resource>com.ulcjava.grails.taglib.UlcTagLib</resource>
-    </resources>
+<plugin name='ulc' version='2008-u4' grailsVersion='1.2.0 &gt; *'>
+  <resources>
+    <resource>UrlMappings</resource>
+    <resource>com.ulcjava.grails.controller.UlcServerEndpointController</resource>
+    <resource>com.ulcjava.grails.services.GenericBeanListTableModel</resource>
+    <resource>com.ulcjava.grails.services.UlcHomeViewFactory</resource>
+    <resource>com.ulcjava.grails.taglib.UlcTagLib</resource>
+  </resources>
+  <dependencies>
+    <resolvers>
+      <resolver type='grailsPlugins' name='grailsPlugins' />
+    </resolvers>
+  </dependencies>
+  <behavior />
 </plugin>

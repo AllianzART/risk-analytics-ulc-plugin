@@ -1,7 +1,7 @@
 package com.ulcjava.grails.taglib
 class UlcTagLib {
 
-    private static plugInDir = "plugins/ulc-2008-u1"
+    private static plugInDir = "plugins/ulc-2008-u4"
     private static plugInKey = "plugin"
 
     static namespace = 'ulc'
@@ -26,12 +26,27 @@ class UlcTagLib {
                 "/ulcServerEndpoint/gate";
 
         def archive = []
-        def contextPath = request.getContextPath()
 
-        File serverContextPath = new File(servletContext.getRealPath("/"))
+        //the virtual path to the requested URI (incl. file / action name)
+        //like GrailsAppName/application.gsp or GrailsAppName/plugins/myplugin/application.gsp
+        String contextPath = request.getRequestURI()
+        //strip file / action name, results in the virtual location of the application or plugin
+        contextPath = contextPath.substring(0, contextPath.lastIndexOf('/'))
+
+        String appPluginDir = ""
+        //If the grails app which uses the ulc plugin is itself a plugin..
+        if(contextPath.contains("plugins")) {
+            appPluginDir = "plugins/" + contextPath.substring(contextPath.lastIndexOf('/'))
+        }
+        //real path to the web-app directory
+        def realPath = servletContext.getRealPath('/')
+
+        //use absolute path to jar files to get all the file names
+        File serverContextPath = new File(realPath)
         File plugInLibDir = new File(serverContextPath, "${plugInDir}/lib")
-        File appLibDir = new File(serverContextPath, "lib")
+        File appLibDir = new File(serverContextPath, "${appPluginDir}/lib")
 
+        //use virtual paths to create applet parameters
         for (fileName in plugInLibDir.list()) {
             archive << "${contextPath}/${plugInDir}/lib/${fileName}"
         }
