@@ -1,4 +1,4 @@
-<plugin name='ulc' version='2008-u4-2' grailsVersion='1.2.0 &gt; *'>
+<plugin name='ulc' version='2008-u4-3' grailsVersion='1.2.0 &gt; *'>
   <resources>
     <resource>BuildConfig</resource>
     <resource>UrlMappings</resource>
