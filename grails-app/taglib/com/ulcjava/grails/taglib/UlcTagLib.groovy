@@ -17,6 +17,8 @@ class UlcTagLib {
 
     def applet = {attrs, body ->
 
+        String applicationContextPath = attrs.remove("applicationContextPath")
+
         PARAMS.'url-string' = request.getScheme() +
                 "://" +
                 request.getServerName() +
@@ -33,11 +35,7 @@ class UlcTagLib {
         //strip file / action name, results in the virtual location of the application or plugin
         contextPath = contextPath.substring(0, contextPath.lastIndexOf('/'))
 
-        String appPluginDir = ""
-        //If the grails app which uses the ulc plugin is itself a plugin..
-        if(contextPath.contains("plugins")) {
-            appPluginDir = "plugins/" + contextPath.substring(contextPath.lastIndexOf('/'))
-        }
+        String appPluginDir = applicationContextPath
         //real path to the web-app directory
         def realPath = servletContext.getRealPath('/')
 
@@ -45,15 +43,12 @@ class UlcTagLib {
         File serverContextPath = new File(realPath)
         File plugInLibDir = new File(serverContextPath, "${plugInDir}/lib")
         File appLibDir = new File(serverContextPath, "${appPluginDir}/lib")
-
         //use virtual paths to create applet parameters
         for (fileName in plugInLibDir.list()) {
             archive << "${contextPath}/${plugInDir}/lib/${fileName}"
         }
-        if (!attrs[plugInKey]) {
-            for (fileName in appLibDir.list()) {
-                archive << "${contextPath}/lib/${fileName}"
-            }
+        for (fileName in appLibDir.list()) {
+            archive << "${contextPath}/${appPluginDir}/lib/${fileName}"
         }
 
         PARAMS.java_archive = archive.join(',')
