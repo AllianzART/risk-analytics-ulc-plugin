@@ -24,16 +24,8 @@ class UlcServerEndpointController implements ApplicationContextAware {
         if (!servletContainerAdapterHelper) {
             servletContainerAdapterHelper = new ServletContainerAdapterHelper(config)
         }
-        for (interceptor in appCtx.getBeansOfType(PersistenceContextInterceptor).values()) {
-            interceptor.init()
-        }
 
         boolean handled = servletContainerAdapterHelper.service(request, response, config)
-
-        for (interceptor in appCtx.getBeansOfType(PersistenceContextInterceptor).values()) {
-            interceptor.flush()
-            interceptor.destroy()
-        }
 
         if (!handled) {
             log.warn "request not handled by ServletContainerAdapterHelper"
