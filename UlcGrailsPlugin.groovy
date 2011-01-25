@@ -1,5 +1,5 @@
 class UlcGrailsPlugin {
-    def version = "2008-u4-4"
+    def version = "2008-u4-4.1"
     def dependsOn = [:]
 
     def doWithSpring = {
