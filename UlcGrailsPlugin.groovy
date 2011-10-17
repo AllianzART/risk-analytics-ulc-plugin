@@ -1,5 +1,5 @@
 class UlcGrailsPlugin {
-    def version = "ria-suite-u2"
+    def version = "ria-suite-u2-P1"
     def dependsOn = [:]
 
     def doWithSpring = {

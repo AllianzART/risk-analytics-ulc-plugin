@@ -5,34 +5,28 @@ import com.ulcjava.base.application.ClientContext;
 import com.ulcjava.base.application.ULCRootPane;
 
 public class UlcApplication extends AbstractApplication {
+
     ULCRootPane fRootPane;
+    UlcViewFactory fViewFactory;
 
     public void start() {
-
-
         String viewFactoryClassName = ClientContext.getUserParameter("ViewFactory");
-        ULCRootPane rootPane = createApplicationView(viewFactoryClassName);
-        if (rootPane == null) {
-            throw new IllegalStateException("failed to create rootPane with factory '" + viewFactoryClassName + "'");
-        }
-        fRootPane = rootPane;
-        fRootPane.setVisible(true);
-    }
-
-    private ULCRootPane createApplicationView(String factoryClassName) {
         try {
-            Class factoryClass = Class.forName(factoryClassName);
-            UlcViewFactory viewFactory = (UlcViewFactory) factoryClass.newInstance();
-            ULCRootPane rootPane = viewFactory.create();
-            return rootPane;
+            Class factoryClass = Class.forName(viewFactoryClassName);
+            fViewFactory = (UlcViewFactory) factoryClass.newInstance();
+            ULCRootPane rootPane = fViewFactory.create();
+            if (rootPane == null) {
+                throw new IllegalStateException("failed to create rootPane with factory '" + viewFactoryClassName + "'");
+            }
+            fRootPane = rootPane;
+            fRootPane.setVisible(true);
         } catch (Exception e) {
-            throw new IllegalStateException("failed to instantiate factory '" + factoryClassName + "'", e);
+            throw new IllegalStateException("failed to instantiate factory '" + viewFactoryClassName + "'", e);
         }
     }
 
     public void stop() {
-        // todo: anything else to do here?
-
+        fViewFactory.stop();
         fRootPane.setVisible(false);
         super.stop(); // is currently empty, but who knows....
     }

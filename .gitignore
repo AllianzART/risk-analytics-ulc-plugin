@@ -1,3 +1,5 @@
 target/*
 web-app/plugins/*
 *.zip
+*.iml
+.idea/*
