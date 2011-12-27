@@ -1,6 +1,5 @@
 package com.ulcjava.grails.services
 
-import com.ulcjava.base.application.*
 import com.ulcjava.base.application.event.ActionEvent
 import com.ulcjava.base.application.event.IActionListener
 import com.ulcjava.base.application.event.IListSelectionListener
@@ -8,6 +7,20 @@ import com.ulcjava.base.application.event.ListSelectionEvent
 import com.ulcjava.container.grails.UlcViewFactory
 import com.ulcjava.environment.applet.application.ULCAppletPane
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import com.ulcjava.base.application.ULCTable
+import com.ulcjava.base.application.ULCContainer
+import com.ulcjava.base.application.ULCRootPane
+import com.ulcjava.applicationframework.application.ApplicationContext
+import com.ulcjava.base.application.ULCBorderLayoutPane
+import com.ulcjava.base.application.BorderFactory
+import com.ulcjava.base.application.ULCComponent
+import com.ulcjava.base.application.ULCComboBox
+import com.ulcjava.base.application.ULCBoxPane
+import com.ulcjava.base.application.ULCFiller
+import com.ulcjava.base.application.ULCListSelectionModel
+import com.ulcjava.base.application.ULCScrollPane
+import com.ulcjava.base.application.ULCLabel
+import com.ulcjava.base.application.ULCTextField
 
 public class UlcHomeViewFactory implements UlcViewFactory {
 
@@ -16,7 +29,7 @@ public class UlcHomeViewFactory implements UlcViewFactory {
     ULCTable domainTable
     ULCContainer detailPanel
 
-    public ULCRootPane create() {
+    public ULCRootPane create(ApplicationContext context) {
 
         ULCAppletPane appletPane = ULCAppletPane.getInstance();
         ULCBorderLayoutPane pane = new ULCBorderLayoutPane(10, 10);
