@@ -1,4 +1,4 @@
-<project name="ulc-plugin">
+<project name="ulc-plugin" default="create-plugin">
 
     <property environment="env"/>
     <property name="GRAILS_HOME" value="${env.GRAILS_HOME}"/>
@@ -28,10 +28,6 @@
         <echo message="app.name: ${app.name}"/>
         <echo message="user.language: ${user.language}, user.country: ${user.country}"/>
     </target>
-
-    <target name="cruise" depends="clean,compile,test"
-            description="to be started by the CruiseControl build server"/>
-
 
     <target name="clean" depends="init" description="--> Cleans a Grails application">
         <exec executable="${grails}" failonerror="true" resolveexecutable="true">
