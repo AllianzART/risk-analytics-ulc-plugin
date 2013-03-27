@@ -1,11 +1,16 @@
-<plugin name='ulc' version='ria-suite-u5' grailsVersion='1.3.7 &gt; *'>
+<plugin name='ulc' version='ria-suite-2012-u1' grailsVersion='2.2.1 &gt; *'>
+  <type>UlcGrailsPlugin</type>
   <resources>
-    <resource>UrlMappings</resource>
     <resource>com.ulcjava.grails.controller.UlcServerEndpointController</resource>
     <resource>com.ulcjava.grails.services.GenericBeanListTableModel</resource>
     <resource>com.ulcjava.grails.services.UlcHomeViewFactory</resource>
     <resource>com.ulcjava.grails.taglib.UlcTagLib</resource>
   </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://grails.org/plugins' />
+  </repositories>
   <dependencies />
+  <plugins />
+  <runtimePluginRequirements />
   <behavior />
 </plugin>
