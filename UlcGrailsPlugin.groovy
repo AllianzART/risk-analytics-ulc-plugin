@@ -38,7 +38,8 @@ class UlcGrailsPlugin {
             }
         }
 
-        def mappingElement = webXml.'servlet-mapping'
+        def mappings = webXml.'servlet-mapping'
+	def mappingElement = mappings[mappings.size() - 1]
         mappingElement + {
             'servlet-mapping' {
                 'servlet-name'('ServletConfigProvider')
