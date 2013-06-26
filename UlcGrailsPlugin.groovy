@@ -1,14 +1,14 @@
 class UlcGrailsPlugin {
-    def version = "ria-suite-2012-u1"
+    def version = "ria-suite-2012-u1-2"
     def dependsOn = [:]
 
     def doWithSpring = {
         // TODO Implement runtime spring config (optional)
     }
-    def doWithApplicationContext = {applicationContext ->
+    def doWithApplicationContext = { applicationContext ->
         // TODO Implement post initialization spring config (optional)
     }
-    def doWithWebDescriptor = {webXml ->
+    def doWithWebDescriptor = { webXml ->
 
         def servlets = webXml.'servlet'
         def servletElement = servlets[servlets.size() - 1]
@@ -39,7 +39,7 @@ class UlcGrailsPlugin {
         }
 
         def mappings = webXml.'servlet-mapping'
-	def mappingElement = mappings[mappings.size() - 1]
+        def mappingElement = mappings[mappings.size() - 1]
         mappingElement + {
             'servlet-mapping' {
                 'servlet-name'('ServletConfigProvider')
@@ -61,11 +61,11 @@ class UlcGrailsPlugin {
             }
         }
     }
-    def onChange = {event ->
+    def onChange = { event ->
         // TODO Implement code that is executed when this class plugin class is changed
         // the event contains: event.application and event.applicationContext objects
     }
-    def onApplicationChange = {event ->
+    def onApplicationChange = { event ->
         // TODO Implement code that is executed when any class in a GrailsApplication changes
         // the event contain: event.source, event.application and event.applicationContext objects
     }
