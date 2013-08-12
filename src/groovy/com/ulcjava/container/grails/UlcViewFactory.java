@@ -8,4 +8,6 @@ public interface UlcViewFactory {
     public ULCRootPane create(ApplicationContext context);
 
     public void stop();
+
+    public void stop(Throwable reason);
 }

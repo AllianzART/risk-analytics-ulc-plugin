@@ -1,7 +1,7 @@
 package com.ulcjava.grails.taglib
 class UlcTagLib {
 
-    private static plugInDir = "plugins/ulc-ria-suite-2013"
+    private static plugInDir = "plugins/ulc-ria-suite-2013-2"
     private static plugInKey = "plugin"
 
     static namespace = 'ulc'

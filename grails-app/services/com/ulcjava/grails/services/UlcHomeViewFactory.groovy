@@ -115,8 +115,7 @@ public class UlcHomeViewFactory implements UlcViewFactory {
     }
 
     void stop() { }
-
-
+    void stop(Throwable reason) {}
 }
 
 class DomainSelectionChangeHandler implements IActionListener {

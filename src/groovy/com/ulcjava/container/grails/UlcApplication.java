@@ -25,10 +25,17 @@ public class UlcApplication extends Application {
         }
     }
 
+
     protected void shutdown() {
         fViewFactory.stop();
         fRootPane.setVisible(false);
         super.shutdown();
     }
 
+    @Override
+    protected void shutdown(Throwable reason) {
+        fViewFactory.stop(reason);
+        fRootPane.setVisible(false);
+        super.shutdown(reason);
+    }
 }
