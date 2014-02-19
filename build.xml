@@ -1,65 +1,67 @@
 <project name="ulc-plugin" default="create-plugin">
 
-    <property environment="env"/>
-    <property name="GRAILS_HOME" value="${env.GRAILS_HOME}"/>
-    <import file="${GRAILS_HOME}/src/grails/grails-macros.xml"/>
+    <property environment="env" />
+    <property name="GRAILS_HOME" value="${env.GRAILS_HOME}" />
+    <import file="${GRAILS_HOME}/src/grails/grails-macros.xml" />
 
-    <property file="application.properties"/>
-    <property file="${user.home}/cert.properties"/>
+    <property file="application.properties" />
+    <property file="${user.home}/cert.properties" />
 
-    <property name="webapp.lib.dir" value="web-app/lib"/>
+    <property name="webapp.lib.dir" value="web-app/lib" />
 
     <condition property="grails" value="${GRAILS_HOME}/bin/grails.bat">
-        <os family="windows"/>
+        <os family="windows" />
     </condition>
-    <property name="grails" value="${GRAILS_HOME}/bin/grails"/>
+    <property name="grails" value="${GRAILS_HOME}/bin/grails" />
 
     <condition property="GRAILS_JVM_OPTS" value="${env.GRAILS_JVM_OPTS}">
         <isset property="env.GRAILS_JVM_OPTS" />
     </condition>
-    <property name="GRAILS_JVM_OPTS" value="-Xmx1024m -XX:MaxPermSize=512m -Duser.language='en'"/>
+    <property name="GRAILS_JVM_OPTS" value="-Xmx1024m -XX:MaxPermSize=512m -Duser.language='en'" />
+    <property name="release.repository" value="pillarone"/>
+
 
     <tstamp>
-        <format property="build-timestamp" pattern="dd.MM.yyyy HH:mm"/>
+        <format property="build-timestamp" pattern="dd.MM.yyyy HH:mm" />
     </tstamp>
 
     <target name="init">
-        <echo message="GRAILS_HOME: ${GRAILS_HOME}"/>
-        <echo message="app.name: ${app.name}"/>
-        <echo message="user.language: ${user.language}, user.country: ${user.country}"/>
+        <echo message="GRAILS_HOME: ${GRAILS_HOME}" />
+        <echo message="app.name: ${app.name}" />
+        <echo message="user.language: ${user.language}, user.country: ${user.country}" />
     </target>
 
     <target name="clean" depends="init" description="--> Cleans a Grails application">
         <exec executable="${grails}" failonerror="true" resolveexecutable="true">
-            <arg value="clean"/>
-            <arg value="--non-interactive"/>
-            <env key="GRAILS_HOME" value="${GRAILS_HOME}"/>
-            <env key="JAVA_OPTS" value="${GRAILS_JVM_OPTS}"/>
+            <arg value="clean" />
+            <arg value="--non-interactive" />
+            <env key="GRAILS_HOME" value="${GRAILS_HOME}" />
+            <env key="JAVA_OPTS" value="${GRAILS_JVM_OPTS}" />
         </exec>
 
     </target>
 
     <target name="compile" depends="init" description="--> Compiles a Grails application">
         <exec executable="${grails}" failonerror="true" resolveexecutable="true">
-            <arg value="compile"/>
-            <arg value="--non-interactive"/>
-            <env key="GRAILS_HOME" value="${GRAILS_HOME}"/>
-            <env key="JAVA_OPTS" value="${GRAILS_JVM_OPTS}"/>
+            <arg value="compile" />
+            <arg value="--non-interactive" />
+            <env key="GRAILS_HOME" value="${GRAILS_HOME}" />
+            <env key="JAVA_OPTS" value="${GRAILS_JVM_OPTS}" />
         </exec>
     </target>
 
     <target name="-trusted-cert-available">
         <!-- try to use a trusted certificate reading cert.properties from the user.home directory -->
-        <available property="file.exists" file="${user.home}/cert.properties"/>
+        <available property="file.exists" file="${user.home}/cert.properties" />
     </target>
 
     <target name="-self-signed-cert" unless="-trusted-cert-available">
         <!-- if no trusted certificate has been found use the self signed certificate available in the project root -->
         <!-- <echo  message="No trusted certificate found. user.home is ${user.home}."/> -->
-        <property name="signjar.alias" value="pillarone"/>
-        <property name="signjar.keystore" value="pillarone.keystore"/>
-        <property name="signjar.storepass" value="nopasswd"/>
-        <property name="signjar.keypass" value="nopasswd"/>
+        <property name="signjar.alias" value="pillarone" />
+        <property name="signjar.keystore" value="pillarone.keystore" />
+        <property name="signjar.storepass" value="nopasswd" />
+        <property name="signjar.keypass" value="nopasswd" />
     </target>
 
     <target name="jar-client" depends="-self-signed-cert" description="--> Create clientside jar files">
@@ -75,14 +77,14 @@
             </path>
         </foreach>
 
-        <echo message="${signjar.keystore}"/>
-        <signjar alias="${signjar.alias}" storetype="PKCS12" keystore="${signjar.keystore}" storepass="${signjar.storepass}"
-                 keypass="${signjar.keypass}" lazy="false">
-            <fileset dir="${webapp.lib.dir}" includes="*.jar"/>
+        <echo message="${signjar.keystore}" />
+        <signjar alias="${signjar.alias}" storetype="PKCS12" keystore="${signjar.keystore}"
+            storepass="${signjar.storepass}" keypass="${signjar.keypass}" lazy="false">
+            <fileset dir="${webapp.lib.dir}" includes="*.jar" />
         </signjar>
     </target>
 
-    <target name="updateManifestForClientJars" >
+    <target name="updateManifestForClientJars">
         <jar update="true" file="${jarFile}">
             <manifest>
                 <attribute name="Codebase" value="*" />
@@ -91,11 +93,15 @@
         </jar>
     </target>
 
-    <target name="create-plugin" depends="clean, compile, jar-client">
+    <target name="release-plugin" depends="clean, compile, jar-client"
+        description="Releases the plugin in the configured repository.">
         <exec executable="${grails}" failonerror="true" resolveexecutable="true">
-            <arg value="package-plugin"/>
-            <env key="GRAILS_HOME" value="${GRAILS_HOME}"/>
-            <env key="JAVA_OPTS" value="${GRAILS_JVM_OPTS}"/>
+            <arg value="--non-interactive" />
+            <arg value="publish-plugin" />
+            <arg value="--repository=${release.repository}" />
+            <arg value="--no-overwrite" />
+            <env key="GRAILS_HOME" value="${GRAILS_HOME}" />
+            <env key="JAVA_OPTS" value="${GRAILS_JVM_OPTS}" />
         </exec>
     </target>
 
