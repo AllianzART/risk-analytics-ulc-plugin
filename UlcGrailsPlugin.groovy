@@ -1,5 +1,7 @@
 class UlcGrailsPlugin {
+    def groupId = "com.canoo"
     def version = "ria-suite-2013-3"
+
     def dependsOn = [:]
 
     def doWithSpring = {
