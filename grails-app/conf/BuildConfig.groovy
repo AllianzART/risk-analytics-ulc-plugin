@@ -33,7 +33,6 @@ grails.project.dependency.resolution = {
     plugins {
         build(":release:2.2.0") {
             export = false
-            transitive = false
         }
     }
 }
