@@ -39,8 +39,8 @@ class UlcTagLib {
         String appPluginDir = applicationContextPath
 
         //use absolute path to jar files to get all the file names
-        File plugInLibDir = new File(servletContext.getRealPath("/${plugInDir}/lib"))
-        File appLibDir = new File(servletContext.getRealPath("/${appPluginDir}/lib"))
+        File plugInLibDir = new File(servletContext.getRealPath("${plugInDir}/lib"))
+        File appLibDir = new File(servletContext.getRealPath("${appPluginDir}/lib"))
         //use virtual paths to create applet parameters
         for (fileName in plugInLibDir.list()) {
             archive << "${contextPath}/${plugInDir}/lib/${fileName}"
