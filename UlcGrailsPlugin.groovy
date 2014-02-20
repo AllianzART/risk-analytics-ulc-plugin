@@ -1,6 +1,8 @@
 class UlcGrailsPlugin {
     def groupId = "com.canoo"
-    def version = "ria-suite-2013-3"
+    //only numeric values sseparated with dots are allowed. Otherwise GrailsVersionUtils cannot compare versions.
+    //Convention: first three numbers is ulc version (7.2.0) last number is incremented for the plugin version
+    def version = "7.2.0.3"
 
     def dependsOn = [:]
 
