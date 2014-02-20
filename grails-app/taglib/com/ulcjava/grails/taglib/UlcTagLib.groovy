@@ -1,8 +1,10 @@
 package com.ulcjava.grails.taglib
+
+import org.codehaus.groovy.grails.plugins.GrailsPluginManager
+
 class UlcTagLib {
 
-    private static plugInDir = "plugins/ulc-ria-suite-2013-2"
-    private static plugInKey = "plugin"
+    GrailsPluginManager pluginManager
 
     static namespace = 'ulc'
 
@@ -15,8 +17,9 @@ class UlcTagLib {
             'java_code': 'com.ulcjava.environment.applet.client.DefaultAppletLauncher.class'
     ]
 
-    def applet = {attrs, body ->
+    def applet = { attrs, body ->
 
+        String plugInDir = pluginManager.getGrailsPlugin('ulc').getPluginPath()
         String applicationContextPath = attrs.remove("applicationContextPath")
 
         PARAMS.'url-string' = request.getScheme() +
