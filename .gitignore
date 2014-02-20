@@ -3,3 +3,5 @@ web-app/plugins/*
 *.zip
 *.iml
 .idea/*
+plugin.xml
+grails-ulc*.zip*
