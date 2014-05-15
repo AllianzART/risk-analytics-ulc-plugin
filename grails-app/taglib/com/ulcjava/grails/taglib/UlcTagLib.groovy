@@ -20,7 +20,7 @@ class UlcTagLib {
     def applet = { attrs, body ->
 
         String plugInDir = pluginManager.getGrailsPlugin('ulc').getPluginPath()
-        String applicationContextPath = attrs.remove("applicationContextPath")
+        List<String> applicationContextPaths = attrs.remove("applicationContextPaths")
 
         PARAMS.'url-string' = request.getScheme() +
                 "://" +
@@ -36,17 +36,21 @@ class UlcTagLib {
         //like GrailsAppName/application.gsp or GrailsAppName/plugins/myplugin/application.gsp
         String contextPath = request.getContextPath()
 
-        String appPluginDir = applicationContextPath
 
         //use absolute path to jar files to get all the file names
         File plugInLibDir = new File(servletContext.getRealPath("${plugInDir}/lib"))
-        File appLibDir = new File(servletContext.getRealPath("${appPluginDir}/lib"))
+
         //use virtual paths to create applet parameters
         for (fileName in plugInLibDir.list()) {
             archive << "${contextPath}/${plugInDir}/lib/${fileName}"
         }
-        for (fileName in appLibDir.list()) {
-            archive << "${contextPath}/${appPluginDir}/lib/${fileName}"
+
+        applicationContextPaths.each {  String appPluginDir ->
+            File appLibDir = new File(servletContext.getRealPath("${appPluginDir}/lib"))
+
+            for (fileName in appLibDir.list()) {
+                archive << "${contextPath}/${appPluginDir}/lib/${fileName}"
+            }
         }
 
         PARAMS.java_archive = archive.join(',')
