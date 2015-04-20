@@ -1,5 +1,3 @@
-import org.apache.ivy.plugins.resolver.FileSystemResolver
-
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
@@ -17,8 +15,8 @@ grails.project.dependency.resolution = {
         grailsCentral()
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
-        //mavenLocal()
-        //mavenCentral()
+        mavenLocal()
+        mavenCentral()
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
