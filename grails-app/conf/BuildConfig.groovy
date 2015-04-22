@@ -34,14 +34,19 @@ grails.project.dependency.resolution = {
     }
 }
 
+grails.project.repos.default = "pillarone"
+
 grails.project.dependency.distribution = {
+    String password = ""
+    String user = ""
+    String scpUrl
     try {
         Properties properties = new Properties()
         properties.load(new File("${userHome}/deployInfo.properties").newInputStream())
-        String user = properties.get("user")
-        String password = properties.get("password")
-        String url = properties.get("url")
-        remoteRepository(id: "pillarone", url: url) {
+        user = properties.get("user")
+        password = properties.get("password")
+        scpUrl = properties.get("url")
+        remoteRepository(id: "pillarone", url: scpUrl) {
             authentication username: user, password: password
         }
     } catch (Throwable t) {
